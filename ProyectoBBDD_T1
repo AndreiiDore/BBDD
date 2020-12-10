@@ -1,0 +1,96 @@
+create database futbol;
+use futbol;
+
+create table equipo(
+	id int(10) primary key not null auto_increment,
+    nombre varchar(10),
+    pais varchar (10),
+    division int,
+    titulos int,
+    estadio varchar (50)  
+);
+create table seleccion(
+	id int primary key not null auto_increment,
+    nombre varchar(10),
+    mundiales int,
+    eurocopas int,
+    copas_america int
+);
+create table jugador (
+	dni varchar(9) primary key not null,
+    nombre varchar (10),
+    apellido varchar (10),
+    dorsal_equipo int,
+    dorsal_seleccion int,
+    equipo varchar(20),
+    nacionalidad varchar (10),
+	id_equipo int,
+    id_seleccion int,
+    foreign key (id_equipo) references equipo(id),
+    foreign key (id_seleccion) references seleccion(id)
+);
+alter table equipo modify nombre varchar(50);
+insert into equipo (nombre,pais,division,titulos,estadio) values
+	("Real Madrid","España",1,92,"Santiago Bernabeu"),
+    ("Barcelona","España",1,130,"Camp Nou"),
+    ("Atletico de Madrid","España",1,33,"Wanda Metropolitano"),
+    ("Rayo Vallecano","España",2,17,"Estadio de Vallecas"),
+    ("Liverpool","Inglaterra",1,56,"Anfield"),
+    ("Manchester City","Inglaterra",1,19,"Etihad Stadium"),
+	("Juventus","Italia",1,59,"Allianz Stadium"),
+    ("Bayer de Munich","Alemania",1,66,"Allianz Arena"),
+    ("Borussia Dortmund","Alemania",1,21,"Signal Iduna Park"),
+    ("PSG","Francia",1,40,"Parque de los Príncipes"),
+    ("Deportivo","España",3,17,"Riazor"),
+    ("Watford","Inglaterra",2,0,"Vicarage Road")
+;
+select * from equipo;
+insert into seleccion (nombre,mundiales,eurocopas,copas_america)values
+	("España",1,2,0),
+    ("Alemania",4,3,0),
+	("Francia",2,2,0),
+    ("Argentina",2,0,14),
+    ("Brasil",5,0,9),
+    ("Inglaterra",1,0,0)
+;
+insert into seleccion (nombre,mundiales,eurocopas,copas_america)values
+	("Portugal",0,2,0);
+    insert into seleccion (nombre,mundiales,eurocopas,copas_america)values
+	("Belgica",0,0,0);
+        insert into seleccion (nombre,mundiales,eurocopas,copas_america)values
+	("Uruguay",2,0,0);
+select * from futbol.jugador;
+insert into jugador (dni,nombre,apellido,dorsal_equipo,dorsal_seleccion,id_equipo,id_seleccion) values
+ ('11111111A','Cristiano','Ronaldo',7,7,7,7),
+ ('22222222A','Lionel','Messi',10,10,2,4),
+ ('11111111B','Paulo','Dybala',10,21,7,4),
+ ('22222222B','Ansu','Fati',22,22,1,1),
+ ('33333333A','Eden','Hazard',7,10,1,8),
+ ('33333333B','Sergio','Ramos',4,15,1,1),
+ ('44444444A','Diego','Costa',19,9,3,1),
+ ('44444444B','Luis','Suarez',9,9,3,9),
+ ('55555555A','Raul','De Tómas',9,null,4,1),
+ ('55555555B','Andrei','Dore',10,null,4,null),
+ ('66666666A','Sadio','Mane',10,10,5,null),
+ ('66666666B','Thiago','Alcantara',6,6,5,1),
+ ('77777777A','Sergio','Aguero',9,10,6,4),
+ ('77777777B ','Nicolas','Otamendi',4,4,6,4)
+ ;
+alter table futbol.jugador drop equipo;
+alter table futbol.jugador drop nacionalidad;
+
+-- update 
+	update futbol.jugador set nombre='Casi Messi' where nombre='Cristiano';
+	SET SQL_SAFE_UPDATES = 0;
+	select * from futbol.jugador;
+	-- Esto significa que no se puede modificar ningún registro (Delete, Update, Truncate) 
+	-- sin especificar la clave
+    update futbol.equipo set  titulos=100 where nombre='Rayo vallecano';
+    select * from equipo;
+-- delete
+	delete from jugador where id_seleccion=1;
+-- select 
+	select nombre, apellido from jugador where id_equipo=2;
+	select nombre from seleccion where mundiales>0;
+    select nombre, copas_america from seleccion where copas_america=0 and mundiales=!0;
+	select nombre, titulos from equipo where titulos > 80;
